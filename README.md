@@ -1,4 +1,4 @@
-## Minimal Geodesign Hub. 
+## Geodesign Hub Dashboard 
 A text based version of Geodesign Hub using the [API](http://www.geodesignsupport.com/section/api/). This project uses the API to get text descriptions of diagrams, systems, change teams and users and produces a text based version of the data in the project. 
 
 It can be useful to understand the project structure, key systems, change teams and participants. 
