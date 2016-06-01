@@ -5,7 +5,7 @@ It can be useful to understand the project structure, key systems, change teams 
 
 ![alt text][logo]
 
-[logo]: http://i.imgur.com/hKw7xBl.png "Minimal Geodesign Hub"
+[logo]: http://i.imgur.com/Z5CJ5n4.png "Minimal Geodesign Hub"
 
 
 ---
