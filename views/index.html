@@ -357,7 +357,9 @@
                     if (row === diagRow) {
                         for (var col = 0; col < fieldlen; col++) {
                             if (col === column) {
-                                emptyDataset[row][column] = diagRank + ": " + curDiag.worlddescription + "<br>ID:" + curDiag.id + " ";
+                                var projectid = $("#projectid").val();
+                                var url = "(<a target='_blank' href='https://www.geodesignhub.com/downloaddiag/" + projectid + "/" + curDiag.id + "/" + "'" + ">download</a>)";
+                                emptyDataset[row][column] = diagRank + ": " + curDiag.worlddescription + "<br>ID:" + curDiag.id + " " + url;
                                 break;
                             }
 
