@@ -7,6 +7,7 @@ It can be useful to understand the project structure, key systems, change teams 
 
 [logo]: http://i.imgur.com/Z5CJ5n4.png "Minimal Geodesign Hub"
 
+Read the blog post here: [Building a text based geodesign Dashboard.](https://hrishikeshballal.net/2016/05/31/a-text-based-geodesign-dashboard/)
 
 ---
 ### Licence
