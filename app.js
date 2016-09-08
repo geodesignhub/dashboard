@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 app.get('/', function(request, response) {
     var opts = {};
     if (request.query.apitoken && request.query.projectid) {
-        
+
         opts = { 'apitoken': request.query.apitoken, 'projectid': request.query.projectid };
     } else {
         opts = { 'apitoken': '0', 'projectid': '0' };
