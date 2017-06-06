@@ -1,34 +1,22 @@
 ## Geodesign Hub Dashboard 
-A text based version of Geodesign Hub using the [API](http://www.geodesignsupport.com/section/api/). This project uses the API to get text descriptions of diagrams, systems, change teams and users and produces a text based version of the data in the project. 
-
-It can be useful to understand the project structure, key systems, change teams and participants. 
-
-![alt text][logo]
-
-[logo]: http://i.imgur.com/Z5CJ5n4.png "Minimal Geodesign Hub"
+A text based version of Geodesign Hub using the [Geodesign Hub API](http://www.geodesignsupport.com/section/api/). This project uses the API to get text descriptions of diagrams, systems, change teams and users and produces a text based version of the data in the project. 
+In addition, individual diagrams can be downloaded as Shapefiles for use in other software. Sometimes this interface is more efficient to jump to specific system or diagrams within a system. 
 
 Read the blog post here: [Building a text based geodesign Dashboard.](https://hrishikeshballal.net/2016/05/31/a-text-based-geodesign-dashboard/)
 
----
-### Licence
-The MIT License (MIT)
 
-Copyright (c) 2016 Hrishikesh Ballal
+## Screenshots 
+The diagrams grid in Geodesignhub is shown in text format along with the diagram id and description. In addition every diagram comes with a download link to take data out of Geodesignhub.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+![alt text][logo]
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+[logo]: https://i.imgur.com/QiI6REO.png "Minimal Geodesign Hub"
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+In addition the plugin uses different parts ofthe API, in this case, the list of change teams and members of a project and their profiles are shown below. 
+
+![alt text][cteam]
+
+[cteam]: https://i.imgur.com/phlHTLb.png "Minimal Geodesign Hub"
+
+
+
