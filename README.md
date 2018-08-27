@@ -1,5 +1,5 @@
 ## Geodesign Hub Dashboard 
-A text based version of Geodesign Hub using the [Geodesign Hub API](http://www.geodesignsupport.com/section/api/). This project uses the API to get text descriptions of diagrams, systems, change teams and users and produces a text based version of the data in the project. 
+A text based version of Geodesign Hub using the [Geodesignhub API](http://www.geodesignsupport.com/section/api/). This project uses the API to get text descriptions of diagrams, systems, change teams and users and produces a text based version of the data in the project. 
 In addition, individual diagrams can be downloaded as Shapefiles for use in other software. Sometimes this interface is more efficient to jump to specific system or diagrams within a system. 
 
 Read the blog post here: [Building a text based geodesign Dashboard.](https://hrishikeshballal.net/2016/05/31/a-text-based-geodesign-dashboard/)
