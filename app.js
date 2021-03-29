@@ -14,21 +14,21 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 
 var baseurl = 'http://local.test:8000/api/v1/projects/';
-var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
+// var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
 
 app.get('/', function (request, response) {
     
     if (request.query.apitoken && request.query.projectid) {
 
-        var apikey = request.query.apikey;
-        var projectid = request.query.projectid;
-
-        var cred = "Token " + apikey;
-        var projectdetails = baseurl + projectid + '/';
-        var systems = baseurl + projectid + '/systems/';
-        var diagrams = baseurl + projectid + '/diagrams/';
-        var cteams = baseurl + projectid + '/cteams/';
-        var members = baseurl + projectid + '/members/';
+        var api_token = request.query.apitoken;
+        var project_id = request.query.projectid;
+        
+        var cred = "Token " + api_token;
+        var projectdetails = baseurl + project_id + '/';
+        var systems = baseurl + project_id + '/systems/';
+        var diagrams = baseurl + project_id + '/diagrams/';
+        var cteams = baseurl + project_id + '/cteams/';
+        var members = baseurl + project_id + '/members/';
 
         var URLS = [projectdetails, systems, diagrams, cteams, members];
 
@@ -46,12 +46,14 @@ app.get('/', function (request, response) {
                 return done(null, JSON.parse(body));
             });
         }, function (err, results) {
-
+            
             if (err) return response.sendStatus(500);
 
             response.render('index', {
                 "status": 1,
-                "data": results
+                "data": results, 
+                "api_token":api_token, 
+                "project_id":project_id
             });
         });
 
@@ -65,18 +67,17 @@ app.get('/diagrams', function (request, response) {
     
     if (request.query.apitoken && request.query.projectid) {
 
-        var apikey = request.query.apikey;
-        var projectid = request.query.projectid;
+        var api_token = request.query.apitoken;
+        var project_id = request.query.projectid;
         
-        var cred = "Token " + apikey;
-        var projectdetails = baseurl + projectid + '/';
-        var systems = baseurl + projectid + '/systems/';
-        var diagrams = baseurl + projectid + '/diagrams/';
-        var cteams = baseurl + projectid + '/cteams/';
-        var members = baseurl + projectid + '/members/';
-
-        var URLS = [projectdetails, systems, diagrams, cteams, members];
-
+        var cred = "Token " + api_token;
+        var projectdetails = baseurl + project_id + '/';
+        var systems = baseurl + project_id + '/systems/';
+        var all_diagrams = baseurl + project_id + '/diagrams/all/';
+        
+        
+        var URLS = [projectdetails, systems, all_diagrams];
+        
         async.map(URLS, function (url, done) {
             req({
                 url: url,
@@ -91,12 +92,14 @@ app.get('/diagrams', function (request, response) {
                 return done(null, JSON.parse(body));
             });
         }, function (err, results) {
-
             if (err) return response.sendStatus(500);
 
             response.render('diagrams', {
                 "status": 1,
-                "data": results
+                "data": results, 
+                "project_id":project_id, 
+                "api_token":api_token
+
             });
         });
 

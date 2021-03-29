@@ -118,7 +118,6 @@
 </head>
 
 <body>
-
     <div class='herounit'>
         <div class="container">
             <!-- Static navbar -->
@@ -129,49 +128,74 @@
                 show a text based view of a project on Geodesignhub. In addition to showing the text based information
                 about the project, individual diagrams can be downloaded as Shapefile for use in other software.
             </p><br>
-
-
         </div>
     </div>
     <br>
     <div class="container">
-        
+
         <section>
             
             <div id="pnamedesccont">
-                <p> <span id="projectname"><%= data[0].projecttitle %></span> <small id="projectdesc">
+                <p><span id="projectname"><%= data[0].projecttitle %></span> <small id="projectdesc">
                         <%= data[0].projectdesc %></small></p>
             </div><br>
 
         </section>
         <section>
-            <h2><a href="/diagrams?projectid=<%= project_id %>&apitoken=<%= api_token %>">Systems and Diagrams</a></h2>
+            <h2>Systems and Diagrams</h2>
            
-            <table id="dTable" class="cell-border display"></table>
+                <br>
+            <table id="dTable" class="cell-border display">
+                <thead>
+                    <tr>
+                        <th>System</th>
+                        <!-- <th>Map</th> -->
+                        <th>Position</th>
+                        <th>Description</th>
+                        <th>Notes</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <%  var all_diagrams = data[2];
+                        var systems = data[1];
+                        for ( var i = 0; i < all_diagrams.length; i++ ) {
+                        var cur_diagram_details = all_diagrams[i];
+                        var sys_id = cur_diagram_details.sysid;
+                        var system_name;
+                        for (var j = 0; j < systems.length; j++ ) {
+                            
+                            if (sys_id == systems[j].id) {
+                                system_name = systems[j].sysname;
+                                break;
+
+                            }
+                        }
+                        %>
+                    <tr>
+                        <td><%= system_name %></td>
+                        <!-- <td>NA</td> -->
+                        <td><%= cur_diagram_details.rank %></td>
+                        <td><%= cur_diagram_details.description %></td>
+                        <td><%= cur_diagram_details.notes %></td>
+                    </tr>
+                    <% } %>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>System</th>
+                        <!-- <th>Map</th> -->
+                        <th>Position</th>
+                        <th>Description</th>
+                        <th>Notes</th>
+                    </tr>
+                </tfoot>
+            </table>
         </section>
         <section>
             <br>
-            <h2>Change Teams</h2>
-            <br>
-
-            <ol id="cteams" class="team-counter">
-                <% var cteamdetails = data[3];
-                var cteamlen = cteamdetails.length;
-                for (var x = 0; x < cteamlen; x++) {  
-                    var cur_team = cteamdetails[x];
-
-                %>  
-                    <li><span class="tab"><%= cur_team.title %></span></li>
-
-                <% } %>
-            </ol>
-        </section>
-        
-        <section>
-            <br>
             <br>
         </section>
-
 
     </div>
     <script src="assets/js/jquery.min.js"></script>
@@ -179,110 +203,45 @@
     <script src="assets/js/humane.min.js"></script>
     <script type="text/javascript">
         var dataTable;
-        let data = <%- JSON.stringify(data) %>;
-        var status = <%- status %>;
-        if (status) {
+        // let data = <%- JSON.stringify(data) %>;
+        // console.log(data);
+        // populateDesignGrid(data.results[1], data.results[2]);
 
-            populateDesignGrid(data[1], data[2]);
-            humane.log("Project Data populated.", {
-                addnCls: 'humane-flatty-success'
-            });
+        humane.log("Project Data populated.", {
+            addnCls: 'humane-flatty-success'
+        });
 
-        } else {
-            humane.log("Error in getting project data. Please check your project id and credentials.", {
-                addnCls: 'humane-flatty-error'
-            });
+        var groupColumn = 0;
+        dataTable = $("#dTable").DataTable({
+                    "searching": true,
+                    
+                    "lengthMenu": [100],
+                    "columnDefs": [{
+                        "visible": false,
+                        "targets": groupColumn
+                    }],
+                    "order": [
+                        [groupColumn, 'asc']
+                    ],
+                    "drawCallback": function (settings) {
+                        var api = this.api();
+                        var rows = api.rows({
+                            page: 'current'
+                        }).nodes();
+                        var last = null;
 
-        }
-
-
-        function populateDesignGrid(systems, diagrams) {
-
-            var fields = [];
-            var syslen = systems.length;
-            for (var k1 = 0; k1 < syslen; k1++) {
-                var curSys = systems[k1];
-                fields.push({
-                    "title": curSys.sysname,
-                    "width": "15%"
-                });
-            }
-
-            var diagData = [];
-            var fieldlen = fields.length;
-            var diaglen = diagrams.length;
-            var allRanks = [];
-            Array.max = function (array) {
-                return Math.max.apply(Math, array);
-            };
-            for (var l1 = 0; l1 < diaglen; l1++) {
-                var curRank = diagrams[l1].rank;
-                allRanks.push(curRank);
-            }
-            // we now have the number of rows;
-            var numRows = Array.max(allRanks);
-            // initialize a empty row. 
-            var emptyDataset = [];
-            for (var j1 = 0; j1 < numRows; j1++) {
-                var curRow = [];
-                for (var n1 = 0; n1 < fieldlen; n1++) {
-                    curRow.push('');
-                }
-                emptyDataset.push(curRow);
-            }
-
-            var rows = emptyDataset.length;
-
-            for (var u1 = 0; u1 < diaglen; u1++) {
-                var curDiag = diagrams[u1];
-                var diagRank = curDiag.rank;
-                var diagRow = diagRank - 1;
-                var diagSysid = curDiag.sysid;
-                var column;
-                for (var k2 = 0; k2 < syslen; k2++) {
-                    var curSystem = systems[k2];
-                    if (diagSysid === curSystem.id) {
-                        column = k2;
-                        break;
-                    }
-                }
-                // we now have a column of the entry, identify the row.
-
-                for (var row = 0; row < rows; row++) {
-                    if (row === diagRow) {
-                        for (var col = 0; col < fieldlen; col++) {
-                            if (col === column) {
-                                var projectid = $("#projectid").val();
-
-                                emptyDataset[row][column] = "<b>" + diagRank + "</b>&nbsp;&nbsp;" + curDiag
-                                    .worlddescription + "<br><small>Author&nbsp;:&nbsp;" + curDiag.author +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp; ID:" + curDiag.id + "</small> ";
-                                break;
+                        api.column(groupColumn, {
+                            page: 'current'
+                        }).data().each(function (group, i) {
+                            if (last !== group) {
+                                $(rows).eq(i).before(
+                                    '<tr class="group"><td colspan="5">' + group + '</td></tr>'
+                                );
+                                last = group;
                             }
-
-                        }
+                        });
                     }
-                }
-
-
-            }
-
-            if (dataTable) {
-                dataTable.destroy();
-            }
-
-            dataTable = $("#dTable").DataTable({
-                "ordering": false,
-                "searching": true,
-                "autoWidth": false,
-                "paging": false,
-                "info": false,
-                "lengthMenu": [100],
-                data: emptyDataset,
-                columns: fields
-            });
-        }
-
+                });
     </script>
 </body>
 
