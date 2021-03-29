@@ -3,7 +3,6 @@ var req = require('request');
 var async = require('async');
 var bodyParser = require('body-parser');
 var app = express();
-
 var ejs = require('ejs');
 app.set('view engine', 'ejs');
 
@@ -14,55 +13,97 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json())
 
-app.get('/', function(request, response) {
-    var opts = {};
+var baseurl = 'http://local.test:8000/api/v1/projects/';
+var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
+
+app.get('/', function (request, response) {
+    
     if (request.query.apitoken && request.query.projectid) {
 
-        opts = { 'apitoken': request.query.apitoken, 'projectid': request.query.projectid };
-    } else {
-        opts = { 'apitoken': '0', 'projectid': '0' };
+        var apikey = request.query.apikey;
+        var projectid = request.query.projectid;
 
-    }
-    response.render('index', opts);
+        var cred = "Token " + apikey;
+        var projectdetails = baseurl + projectid + '/';
+        var systems = baseurl + projectid + '/systems/';
+        var diagrams = baseurl + projectid + '/diagrams/';
+        var cteams = baseurl + projectid + '/cteams/';
+        var members = baseurl + projectid + '/members/';
+
+        var URLS = [projectdetails, systems, diagrams, cteams, members];
+
+        async.map(URLS, function (url, done) {
+            req({
+                url: url,
+                headers: {
+                    "Authorization": cred,
+                    "Content-Type": "application/json"
+                }
+            }, function (err, response, body) {
+                if (err || response.statusCode !== 200) {
+                    return done(err || new Error());
+                }
+                return done(null, JSON.parse(body));
+            });
+        }, function (err, results) {
+
+            if (err) return response.sendStatus(500);
+
+            response.render('index', {
+                "status": 1,
+                "data": results
+            });
+        });
+
+    } else {
+        response.status(400).send('Not all parameters supplied.')
+
+    };
 });
 
-app.post('/post/', function(request, response) {
-    var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
-    var apikey = request.body.apikey;
+app.get('/diagrams', function (request, response) {
+    
+    if (request.query.apitoken && request.query.projectid) {
 
-    var projectid = request.body.projectid;
+        var apikey = request.query.apikey;
+        var projectid = request.query.projectid;
+        
+        var cred = "Token " + apikey;
+        var projectdetails = baseurl + projectid + '/';
+        var systems = baseurl + projectid + '/systems/';
+        var diagrams = baseurl + projectid + '/diagrams/';
+        var cteams = baseurl + projectid + '/cteams/';
+        var members = baseurl + projectid + '/members/';
 
-    var cred = "Token " + apikey;
-    var projectdetails = baseurl + projectid + '/';
-    var systems = baseurl + projectid + '/systems/';
-    var diagrams = baseurl + projectid + '/diagrams/';
-    var cteams = baseurl + projectid + '/cteams/';
-    var members = baseurl + projectid + '/members/';
+        var URLS = [projectdetails, systems, diagrams, cteams, members];
 
-    var URLS = [projectdetails, systems, diagrams, cteams, members];
+        async.map(URLS, function (url, done) {
+            req({
+                url: url,
+                headers: {
+                    "Authorization": cred,
+                    "Content-Type": "application/json"
+                }
+            }, function (err, response, body) {
+                if (err || response.statusCode !== 200) {
+                    return done(err || new Error());
+                }
+                return done(null, JSON.parse(body));
+            });
+        }, function (err, results) {
 
-    async.map(URLS, function(url, done) {
-        req({
-            url: url,
-            headers: {
-                "Authorization": cred,
-                "Content-Type": "application/json"
-            }
-        }, function(err, response, body) {
-            if (err || response.statusCode !== 200) {
-                return done(err || new Error());
-            }
-            return done(null, JSON.parse(body));
+            if (err) return response.sendStatus(500);
+
+            response.render('diagrams', {
+                "status": 1,
+                "data": results
+            });
         });
-    }, function(err, results) {
 
-        if (err) return response.sendStatus(500);
-        response.contentType('application/json');
-        response.send({
-            "status": 1,
-            "results": results
-        });
-    });
+    } else {
+        response.status(400).send('Not all parameters supplied.')
+
+    };
 });
 
 app.listen(process.env.PORT || 5000);

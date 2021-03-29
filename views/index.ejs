@@ -19,7 +19,7 @@
             margin: 0 auto;
             overflow: hidden;
         }
-        
+
         .button {
             background-color: #4CAF50;
             /* Green */
@@ -34,19 +34,19 @@
             margin: 4px 2px;
             cursor: pointer;
         }
-        
+
         a {
             color: #00AED8;
         }
-        
+
         a:hover {
             color: #00AED8;
         }
-        
+
         section {
             padding-top: 20px;
         }
-        
+
         input[type="text"] {
             display: block;
             margin: 0;
@@ -65,34 +65,36 @@
             -o-border-radius: none;
             border-radius: none;
         }
-        
+
         input[type="text"]:focus {
             outline: none;
         }
+
         /* lists */
-        
+
         ul.input-list {
             list-style: none;
             margin: 0 -10px;
             padding: 0;
         }
-        
+
         .herounit {
             background: #E5E4E2;
             padding-bottom: 25px;
         }
-        
+
         ul.input-list li {
             display: block;
             padding: 0 10px;
             width: 50%;
             float: left;
         }
-        
+
         @media all and (max-width: 800px) {
             ul.input-list {
                 margin: 0;
             }
+
             ul.input-list li {
                 padding: 0;
                 width: 100%;
@@ -100,30 +102,30 @@
                 margin-bottom: 10px;
             }
         }
-        
+
         .style-2 input[type="text"] {
             padding: 10px;
             border: solid 5px #c9c9c9;
             transition: border 0.3s;
         }
-        
+
         .style-2 input[type="text"]:focus,
         .style-2 input[type="text"].focus {
             border: solid 5px #969696;
         }
-        
+
         .team-counter {
             margin: 0;
             padding: 0;
             list-style-type: none;
         }
-        
+
         .team-counter li {
             counter-increment: step-counter;
             margin-bottom: 10px;
             font-size: 16px;
         }
-        
+
         .team-counter li::before {
             content: counter(step-counter);
             margin-right: 5px;
@@ -134,7 +136,7 @@
             padding: 3px 8px;
             border-radius: 1px;
         }
-        
+
         #pnamedesccont {
             color: #50585d;
             font-size: 18px;
@@ -143,18 +145,18 @@
             font-family: 'Open Sans', sans-serif;
             /*letter-spacing: -2px;*/
         }
-        
+
         .info {
             font-size: 12px;
         }
-        
+
         .double ol {
             width: 760px;
             margin-bottom: 20px;
             overflow: hidden;
             border-top: 1px solid #ccc;
         }
-        
+
         .double li {
             float: left;
             display: inline;
@@ -171,29 +173,20 @@
             <!-- Main component for a primary marketing message or call to action -->
             <br>
             <h1>Geodesignhub Dashboard</h1>
-            <p>This is a <a href="http://www.geodesignhub.com/api/" target="_blank">Geodesignhub API</a> experiment to show a text based view of a project on Geodesignhub. In addition to showing the text based information about the project, individual diagrams can be downloaded as Shapefile for use in other software.
+            <p>This is a <a href="http://www.geodesignhub.com/api/" target="_blank">Geodesignhub API</a> experiment to
+                show a text based view of a project on Geodesignhub. In addition to showing the text based information
+                about the project, individual diagrams can be downloaded as Shapefile for use in other software.
             </p><br>
 
-            <section class="invisible">
 
-
-                <ul class="input-list style-2 clearfix">
-                    <li>
-                        <input type="text" id="apikey" placeholder="Enter API Key">
-                    </li>
-                    <li>
-                        <input type="text" class="" maxlength="16" id="projectid" placeholder="Project ID">
-                    </li>
-                    <li><br><button type="submit" class="button" onclick="submitProjectDetails()">Get Project Data</button></li>
-                </ul>
-            </section>
         </div>
     </div>
     <br>
     <div class="container">
         <section>
             <h2>Project Details</h2>
-            <p class="info">Project title and description are filled below using the <a href="https://www.geodesignhub.com/api/#projects-api" target="_blank">Projects API</a>.</p>
+            <p class="info">Project title and description are filled below using the <a
+                    href="https://www.geodesignhub.com/api/#projects-api" target="_blank">Projects API</a>.</p>
             <br>
             <div id="pnamedesccont">
                 <p> <span id="projectname"></span> <span id="projectdesc"></span></p>
@@ -202,13 +195,16 @@
         </section>
         <section>
             <h2>Systems and Diagrams</h2>
-            <p class="info">A grid of the systems and added diagrams and their ID using the <a href="https://www.geodesignhub.com/api/#diagrams-api" target="_blank">Diagrams API</a> will be populated. </p>
+            <p class="info">A grid of the systems and added diagrams and their ID using the <a
+                    href="https://www.geodesignhub.com/api/#diagrams-api" target="_blank">Diagrams API</a> will be
+                populated. </p>
             <table id="dTable" class="cell-border display"></table>
         </section>
         <section>
             <br>
             <h2>Change Teams</h2>
-            <p class="info">Change teams are displayed below using the <a href="https://www.geodesignhub.com/api/#change-teams-api" target="_blank">Change Team API</a>.</p>
+            <p class="info">Change teams are displayed below using the <a
+                    href="https://www.geodesignhub.com/api/#change-teams-api" target="_blank">Change Team API</a>.</p>
             <br>
 
             <ol id="cteams" class="team-counter">
@@ -216,7 +212,9 @@
         </section>
         <section>
             <h2>Project Members</h2>
-            <p class="info">All the members of the projects are displayed below <a href="https://www.geodesignhub.com/api/#projects-api" target="_blank">Project API</a> with a link to their profile.</p>
+            <p class="info">All the members of the projects are displayed below <a
+                    href="https://www.geodesignhub.com/api/#projects-api" target="_blank">Project API</a> with a link to
+                their profile.</p>
             <br>
             <div id="wrapper">
                 <ol id="members" class="team-counter double">
@@ -236,59 +234,21 @@
     <script src="assets/js/humane.min.js"></script>
     <script type="text/javascript">
         var dataTable;
+        if (data.status) {
 
-        function submitProjectDetails() {
-            var apikey = $("#apikey").val();
-            var projectid = $("#projectid").val();
-            submitPost(apikey, projectid);
+            populateProjectNameDesc(data.results[0]);
+            populateDesignGrid(data.results[1], data.results[2]);
+            populateChangeTeams(data.results[3]);
+            populateMembers(data.results[4]);
+            humane.log("Project Data populated.", {
+                addnCls: 'humane-flatty-success'
+            });
 
-        }
+        } else {
+            humane.log("Error in getting project data. Please check your project id and credentials.", {
+                addnCls: 'humane-flatty-error'
+            });
 
-        function submitPost(apikey, projectid) {
-            if (apikey.length > 20 && projectid.length == 16) {
-                var d = {
-                    'apikey': apikey,
-                    'projectid': projectid
-                };
-                var promise = $.ajax({
-                    url: '/post/',
-                    data: JSON.stringify(d),
-                    contentType: "application/json",
-                    type: 'POST'
-                });
-
-                humane.log("Submitting request..", {
-                    addnCls: 'humane-flatty-info'
-                });
-                promise.done(function(data) {
-                    if (data.status) {
-
-                        populateProjectNameDesc(data.results[0]);
-                        populateDesignGrid(data.results[1], data.results[2]);
-                        populateChangeTeams(data.results[3]);
-                        populateMembers(data.results[4]);
-                        humane.log("Project Data populated.", {
-                            addnCls: 'humane-flatty-success'
-                        });
-
-                    } else {
-                        humane.log("Error in getting project data. Please check your project id and credentials.", {
-                            addnCls: 'humane-flatty-error'
-                        });
-
-                    }
-
-                });
-                promise.fail(function(data) {
-                    humane.log("Either the API Key or Project ID is incorrect. Please check your input.", {
-                        addnCls: 'humane-flatty-error'
-                    });
-                });
-            } else {
-                humane.log("Please enter a valid project id and a API key.", {
-                    addnCls: 'humane-flatty-error'
-                });
-            }
         }
 
         function populateProjectNameDesc(namedesc) {
@@ -325,7 +285,7 @@
             var fieldlen = fields.length;
             var diaglen = diagrams.length;
             var allRanks = [];
-            Array.max = function(array) {
+            Array.max = function (array) {
                 return Math.max.apply(Math, array);
             };
             for (var l1 = 0; l1 < diaglen; l1++) {
@@ -366,8 +326,10 @@
                         for (var col = 0; col < fieldlen; col++) {
                             if (col === column) {
                                 var projectid = $("#projectid").val();
-                               
-                                emptyDataset[row][column] = "<b>" + diagRank + "</b>&nbsp;&nbsp;" + curDiag.worlddescription + "<br><small>Author&nbsp;:&nbsp;" + curDiag.author + "&nbsp;&nbsp;&nbsp;&nbsp; ID:"+curDiag.id+"</small> ";
+
+                                emptyDataset[row][column] = "<b>" + diagRank + "</b>&nbsp;&nbsp;" + curDiag
+                                    .worlddescription + "<br><small>Author&nbsp;:&nbsp;" + curDiag.author +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp; ID:" + curDiag.id + "</small> ";
                                 break;
                             }
 
@@ -400,7 +362,8 @@
             var memlen = m.length;
             for (var x = 0; x < memlen; x++) {
                 var curmember = m[x];
-                var url = "<a target='_blank' href='https://www.geodesignhub.com/" + curmember.username + "'" + ">" + curmember.username + "</a> ";
+                var url = "<a target='_blank' href='https://www.geodesignhub.com/" + curmember.username + "'" + ">" +
+                    curmember.username + "</a> ";
                 $("#members").append(
                     $('<li>').append(
                         $('<span>').attr('class', 'tab').append(url)
@@ -409,16 +372,5 @@
         }
     </script>
 </body>
-<script>
-    var apitoken = "<%= apitoken  %>"; //var test is now assigned to getTest which will only work on browsers
-    var projectid = "<%= projectid %>"; //var test is now assigned to getTest which will only work on browsers  
-    $(function() {
-        if (apitoken !== "0" && projectid !== "0") {
-            $("#apikey").val(apitoken);
-            $("#projectid").val(projectid);
-            submitPost(apitoken, projectid);
-        }
-    });
-</script>
 
 </html>
