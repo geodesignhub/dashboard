@@ -19,20 +19,8 @@
             margin: 0 auto;
             overflow: hidden;
         }
-
-        .button {
-            background-color: #4CAF50;
-            /* Green */
-            font-family: 'Open Sans', sans-serif;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
+        .pull-right {
+            float:right;
         }
 
         a {
@@ -47,72 +35,11 @@
             padding-top: 20px;
         }
 
-        input[type="text"] {
-            display: block;
-            margin: 0;
-            width: 100%;
-            font-family: "Open Sans", sans-serif;
-            font-size: 18px;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            -webkit-box-shadow: none;
-            -moz-box-shadow: none;
-            box-shadow: none;
-            -webkit-border-radius: none;
-            -moz-border-radius: none;
-            -ms-border-radius: none;
-            -o-border-radius: none;
-            border-radius: none;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-        }
-
-        /* lists */
-
-        ul.input-list {
-            list-style: none;
-            margin: 0 -10px;
-            padding: 0;
-        }
-
         .herounit {
             background: #E5E4E2;
             padding-bottom: 25px;
         }
-
-        ul.input-list li {
-            display: block;
-            padding: 0 10px;
-            width: 50%;
-            float: left;
-        }
-
-        @media all and (max-width: 800px) {
-            ul.input-list {
-                margin: 0;
-            }
-
-            ul.input-list li {
-                padding: 0;
-                width: 100%;
-                float: none;
-                margin-bottom: 10px;
-            }
-        }
-
-        .style-2 input[type="text"] {
-            padding: 10px;
-            border: solid 5px #c9c9c9;
-            transition: border 0.3s;
-        }
-
-        .style-2 input[type="text"]:focus,
-        .style-2 input[type="text"].focus {
-            border: solid 5px #969696;
-        }
+        
 
     </style>
 </head>
@@ -125,10 +52,8 @@
             <!-- Main component for a primary marketing message or call to action -->
             <br>
             <h1>Geodesignhub Dashboard</h1>
-            <p>This is a <a href="http://www.geodesignhub.com/api/" target="_blank">Geodesignhub API</a> experiment to
-                show a text based view of a project on Geodesignhub. In addition to showing the text based information
-                about the project, individual diagrams can be downloaded as Shapefile for use in other software.
-            </p><br>
+            <br>
+            <p>This is a text based dashboard of your Geodesignhub project via the <a href="http://www.geodesignhub.com/api/" target="_blank">Geodesignhub API</a> experiment to. In addition to showing the text based information about the individual diagrams, diagram notes can be displayed as well. For more information, see the <a href="https://geodesignhub.github.io/dashboard">Github</a> page.</p><br>
 
 
         </div>
@@ -138,34 +63,12 @@
         
         <section>
             
-            <div id="pnamedesccont">
-                <p> <span id="projectname"><%= data[0].projecttitle %></span> <small id="projectdesc">
-                        <%= data[0].projectdesc %></small></p>
-            </div><br>
-
-        </section>
-        <section>
-            <h2><a href="/diagrams?projectid=<%= project_id %>&apitoken=<%= api_token %>">Systems and Diagrams</a></h2>
-           
+            <br>
+            <h2><span>Project Diagram grid</span> <span class="pull-right"><a href="/diagrams?projectid=<%= project_id %>&apitoken=<%= api_token %>">See Diagram Notes →</a></span></h2>
+            <br><br>
             <table id="dTable" class="cell-border display"></table>
         </section>
-        <section>
-            <br>
-            <h2>Change Teams</h2>
-            <br>
-
-            <ol id="cteams" class="team-counter">
-                <% var cteamdetails = data[3];
-                var cteamlen = cteamdetails.length;
-                for (var x = 0; x < cteamlen; x++) {  
-                    var cur_team = cteamdetails[x];
-
-                %>  
-                    <li><span class="tab"><%= cur_team.title %></span></li>
-
-                <% } %>
-            </ol>
-        </section>
+        
         
         <section>
             <br>
@@ -183,7 +86,7 @@
         var status = <%- status %>;
         if (status) {
 
-            populateDesignGrid(data[1], data[2]);
+            populateDesignGrid(data[0], data[1]);
             humane.log("Project Data populated.", {
                 addnCls: 'humane-flatty-success'
             });
@@ -256,7 +159,7 @@
 
                                 emptyDataset[row][column] = "<b>" + diagRank + "</b>&nbsp;&nbsp;" + curDiag
                                     .worlddescription + "<br><small>Author&nbsp;:&nbsp;" + curDiag.author +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp; ID:" + curDiag.id + "</small> ";
+                                    "&nbsp;&nbsp;&nbsp;&nbsp; ID: " + curDiag.id + "</small> ";
                                 break;
                             }
 
@@ -275,7 +178,7 @@
                 "ordering": false,
                 "searching": true,
                 "autoWidth": false,
-                "paging": false,
+                "paging": true,
                 "info": false,
                 "lengthMenu": [100],
                 data: emptyDataset,

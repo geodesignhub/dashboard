@@ -24,13 +24,12 @@ app.get('/', function (request, response) {
         var project_id = request.query.projectid;
         
         var cred = "Token " + api_token;
-        var projectdetails = baseurl + project_id + '/';
+        
         var systems = baseurl + project_id + '/systems/';
         var diagrams = baseurl + project_id + '/diagrams/';
-        var cteams = baseurl + project_id + '/cteams/';
-        var members = baseurl + project_id + '/members/';
+        
 
-        var URLS = [projectdetails, systems, diagrams, cteams, members];
+        var URLS = [systems, diagrams];
 
         async.map(URLS, function (url, done) {
             req({
@@ -71,12 +70,12 @@ app.get('/diagrams', function (request, response) {
         var project_id = request.query.projectid;
         
         var cred = "Token " + api_token;
-        var projectdetails = baseurl + project_id + '/';
+        
         var systems = baseurl + project_id + '/systems/';
         var all_diagrams = baseurl + project_id + '/diagrams/all/';
         
         
-        var URLS = [projectdetails, systems, all_diagrams];
+        var URLS = [ systems, all_diagrams];
         
         async.map(URLS, function (url, done) {
             req({
@@ -109,4 +108,4 @@ app.get('/diagrams', function (request, response) {
     };
 });
 
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 5001);

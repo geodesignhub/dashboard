@@ -20,19 +20,8 @@
             overflow: hidden;
         }
 
-        .button {
-            background-color: #4CAF50;
-            /* Green */
-            font-family: 'Open Sans', sans-serif;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
+        .pull-right {
+            float: right;
         }
 
         a {
@@ -47,73 +36,10 @@
             padding-top: 20px;
         }
 
-        input[type="text"] {
-            display: block;
-            margin: 0;
-            width: 100%;
-            font-family: "Open Sans", sans-serif;
-            font-size: 18px;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            -webkit-box-shadow: none;
-            -moz-box-shadow: none;
-            box-shadow: none;
-            -webkit-border-radius: none;
-            -moz-border-radius: none;
-            -ms-border-radius: none;
-            -o-border-radius: none;
-            border-radius: none;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-        }
-
-        /* lists */
-
-        ul.input-list {
-            list-style: none;
-            margin: 0 -10px;
-            padding: 0;
-        }
-
         .herounit {
             background: #E5E4E2;
             padding-bottom: 25px;
         }
-
-        ul.input-list li {
-            display: block;
-            padding: 0 10px;
-            width: 50%;
-            float: left;
-        }
-
-        @media all and (max-width: 800px) {
-            ul.input-list {
-                margin: 0;
-            }
-
-            ul.input-list li {
-                padding: 0;
-                width: 100%;
-                float: none;
-                margin-bottom: 10px;
-            }
-        }
-
-        .style-2 input[type="text"] {
-            padding: 10px;
-            border: solid 5px #c9c9c9;
-            transition: border 0.3s;
-        }
-
-        .style-2 input[type="text"]:focus,
-        .style-2 input[type="text"].focus {
-            border: solid 5px #969696;
-        }
-
     </style>
 </head>
 
@@ -124,42 +50,43 @@
             <!-- Main component for a primary marketing message or call to action -->
             <br>
             <h1>Geodesignhub Dashboard</h1>
-            <p>This is a <a href="http://www.geodesignhub.com/api/" target="_blank">Geodesignhub API</a> experiment to
-                show a text based view of a project on Geodesignhub. In addition to showing the text based information
-                about the project, individual diagrams can be downloaded as Shapefile for use in other software.
-            </p><br>
+            <br>
+            <p>This is a text based dashboard of your Geodesignhub project via the <a
+                    href="http://www.geodesignhub.com/api/" target="_blank">Geodesignhub API</a> experiment to. In
+                addition to showing the text based information about the individual diagrams, diagram notes can be
+                displayed as well. For more information, see the <a
+                    href="https://geodesignhub.github.io/dashboard">Github</a> page.</p><br>
+
+
         </div>
     </div>
     <br>
     <div class="container">
 
         <section>
-            
-            <div id="pnamedesccont">
-                <p><span id="projectname"><%= data[0].projecttitle %></span> <small id="projectdesc">
-                        <%= data[0].projectdesc %></small></p>
-            </div><br>
 
-        </section>
-        <section>
-            <h2>Systems and Diagrams</h2>
-           
+            <section>
+
                 <br>
-            <table id="dTable" class="cell-border display">
-                <thead>
-                    <tr>
-                        <th>System</th>
-                        <!-- <th>Map</th> -->
-                        <th>Position</th>
-                        <th>Project or Policy</th>
-                        <th>Description</th>
-                        <th>Notes</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <%  var all_diagrams = data[2];
-                        var systems = data[1];
+                <h2><span>Project Diagram Notes</span> <span class="pull-right"><a
+                            href="/?projectid=<%= project_id %>&apitoken=<%= api_token %>">See Diagram Grid →</a></span>
+                </h2>
+                <br><br>
+
+                <table id="dTable" class="cell-border display">
+                    <thead>
+                        <tr>
+                            <th>System</th>
+                            <!-- <th>Map</th> -->
+                            <th>Position</th>
+                            <th>Diagram Description</th>
+                            <th>Diagram Notes</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%  var all_diagrams = data[1];
+                        var systems = data[0];
                         for ( var i = 0; i < all_diagrams.length; i++ ) {
                         var cur_diagram_details = all_diagrams[i];
                         var sys_id = cur_diagram_details.sysid;
@@ -173,32 +100,30 @@
                             }
                         }
                         %>
-                    <tr>
-                        <td><%= system_name %></td>
-                        <!-- <td>NA</td> -->
-                        <td><%= cur_diagram_details.rank %></td>
-                        <td><%= cur_diagram_details.type %></td>
-                        <td><%= cur_diagram_details.description %></td>
-                        <td><%= cur_diagram_details.notes %></td>
-                    </tr>
-                    <% } %>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>System</th>
-                        <!-- <th>Map</th> -->
-                        <th>Position</th>
-                        <th>Project or Policy</th>
-                        <th>Description</th>
-                        <th>Notes</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </section>
-        <section>
-            <br>
-            <br>
-        </section>
+                        <tr>
+                            <td><%= system_name %></td>
+                            <!-- <td>NA</td> -->
+                            <td><%= cur_diagram_details.rank %></td>
+                            <td><%= cur_diagram_details.description %></td>
+                            <td><%= cur_diagram_details.notes %></td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>System</th>
+                            <!-- <th>Map</th> -->
+                            <th>Position</th>
+                            <th>Diagram Description</th>
+                            <th>Diagram Notes</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+            <section>
+                <br>
+                <br>
+            </section>
 
     </div>
     <script src="assets/js/jquery.min.js"></script>
@@ -210,41 +135,48 @@
         // console.log(data);
         // populateDesignGrid(data.results[1], data.results[2]);
 
-        humane.log("Project Data populated.", {
+        humane.log("Diagram Data populated", {
             addnCls: 'humane-flatty-success'
         });
 
         var groupColumn = 0;
         dataTable = $("#dTable").DataTable({
-                    "searching": true,
-                    
-                    "lengthMenu": [100],
-                    "columnDefs": [{
-                        "visible": false,
-                        "targets": groupColumn
-                    }],
-                    "order": [
-                        [groupColumn, 'asc']
-                    ],
-                    "drawCallback": function (settings) {
-                        var api = this.api();
-                        var rows = api.rows({
-                            page: 'current'
-                        }).nodes();
-                        var last = null;
+            "searching": true,
 
-                        api.column(groupColumn, {
-                            page: 'current'
-                        }).data().each(function (group, i) {
-                            if (last !== group) {
-                                $(rows).eq(i).before(
-                                    '<tr class="group"><td colspan="5">' + group + '</td></tr>'
-                                );
-                                last = group;
-                            }
-                        });
+            "lengthMenu": [100],
+            "columnDefs": [{
+                "visible": false,
+                "targets": groupColumn
+            }],
+            "columns": [
+                null,{
+                    "width": "10%"
+                },
+                null,
+                null
+            ],
+            "order": [
+                [groupColumn, 'asc']
+            ],
+            "drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({
+                    page: 'current'
+                }).nodes();
+                var last = null;
+
+                api.column(groupColumn, {
+                    page: 'current'
+                }).data().each(function (group, i) {
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr class="group"><td colspan="5">' + group + '</td></tr>'
+                        );
+                        last = group;
                     }
                 });
+            }
+        });
     </script>
 </body>
 
