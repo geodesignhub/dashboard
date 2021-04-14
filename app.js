@@ -90,8 +90,8 @@ app.get('/images/:diagram_id(\\d+)/:uuid?/', function (request, response) {
             });
         }, function (err, results) {
             if (err) return response.sendStatus(500);
-            response.writeHead(200, { 'Content-Type': 'image/png' })
-            response.end(results); // Send the file data to the browser.
+            response.setHeader("Content-Type","image/png");
+            response.send(results[0]); // Send the file data to the browser.
 
         });
 
