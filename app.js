@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var ejs = require('ejs');
 app.set('view engine', 'ejs');
-
+var axios = require('axios');
 app.use(express.static(__dirname + '/views'));
 app.use('/assets', express.static('static'));
 app.use(bodyParser.urlencoded({
@@ -72,33 +72,55 @@ app.get('/images/:diagram_id(\\d+)/:uuid?/', function (request, response) {
         var project_id = request.query.projectid;
         var cred = "Token " + api_token;
         var all_diagrams = baseurl + project_id + '/diagrams/' + diagram_id + '/thumbnail/' + reqUUID + '/';
-
+        let headers = {
+            "Authorization": cred
+        };
         var URLS = [all_diagrams];
+        axios
+            .get(all_diagrams, {
+                responseType: 'arraybuffer',
+                headers: headers
+            })
+            .then(res => {
+                let im = Buffer.from(res.data, 'binary').toString('base64');
+                const img = Buffer.from(im, 'base64');
+                response.writeHead(200, {
+                    'Content-Type': 'image/png',
+                    'Content-Length': img.length
+                });
 
-        async.map(URLS, function (url, done) {
-            req({
-                url: url,
-                headers: {
-                    "Authorization": cred,
-                    "Content-Type": "application/json"
-                }
-            }, function (err, response, body) {
-                if (err || response.statusCode !== 200) {
-                    return done(err || new Error());
-                }
-                return done(null, JSON.parse(body));
-            });
-        }, function (err, results) {
-            if (err) return response.sendStatus(500);
-            response.setHeader("Content-Type","image/png");
-            response.send(results[0]); // Send the file data to the browser.
+                response.end(img);
+            })
+        //     async.map(URLS, function (url, done) {
+        //         let headers = {
+        //             "Authorization": cred
+        //         };
+        //         let image = getBase64(url, headers);
+        //         return done(null, image);
+        //         // req({
+        //         //     url: url,
+        //         //     headers: {
+        //         //         "Authorization": cred,
+        //         //         "Content-Type": "application/json"
+        //         //     }
+        //         // }, function (err, response, body) {
+        //         //     if (err || response.statusCode !== 200) {
+        //         //         return done(err || new Error());
+        //         //     }
+        //         //     return done(null, JSON.parse(body));
+        //         // });
+        //     }, function (err, results) {
+        //         if (err) return response.sendStatus(500);
+        //         response.setHeader("Content-Type", "image/png");
+        //         response.send(results[0]); // Send the file data to the browser.
 
-        });
+        //     });
 
-    } else {
-        response.status(400).send('Not all parameters supplied.');
+        // } else {
+        //     response.status(400).send('Not all parameters supplied.');
 
-    };
+        // };
+    }
 });
 
 app.get('/diagrams', function (request, response) {

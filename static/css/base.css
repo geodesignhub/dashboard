@@ -182,7 +182,12 @@ tr.group:hover {
 /* ============================================================
   TEMPLATE
 ============================================================ */
-
+.thumbnail {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 3px;
+    width: 100px;
+}
 #wrapper {
     width: 100%;
     margin: 0 auto;
