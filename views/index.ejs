@@ -186,10 +186,12 @@
             dataTable = $("#dTable").DataTable({
                 dom: 'Bfrtip',
                 buttons: {
-        buttons: [
-            { extend: 'copy', className: 'button' },
-        ]
-    },
+                    buttons: [{
+                        extend: 'copy',
+                        className: 'button',
+                        text: 'Copy to clipboard'
+                    }, ]
+                },
                 "ordering": false,
                 "searching": true,
                 "autoWidth": false,
