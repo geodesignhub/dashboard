@@ -103,7 +103,16 @@ blockquote:after {
 del {
     text-decoration: line-through;
 }
-
+.button {
+    background-color: #097edd; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
 
 /* tables still need 'cellspacing="0"' in the markup */
 

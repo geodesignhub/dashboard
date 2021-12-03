@@ -11,6 +11,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <link href='assets/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+    <link href='assets/css/buttons.dataTables.min.css' rel='stylesheet' type='text/css'>
     <link href='assets/css/flatty.css' rel='stylesheet' type='text/css'>
     <link href='assets/css/base.css' rel='stylesheet' type='text/css'>
     <style type="text/css">
@@ -19,8 +20,9 @@
             margin: 0 auto;
             overflow: hidden;
         }
+
         .pull-right {
-            float:right;
+            float: right;
         }
 
         a {
@@ -39,8 +41,6 @@
             background: #E5E4E2;
             padding-bottom: 25px;
         }
-        
-
     </style>
 </head>
 
@@ -53,23 +53,29 @@
             <br>
             <h1>Geodesignhub Dashboard</h1>
             <br>
-            <p>This is a text based dashboard of your Geodesignhub project via the <a href="http://www.geodesignhub.com/api/" target="_blank">Geodesignhub API</a> experiment to. In addition to showing the text based information about the individual diagrams, diagram notes can be displayed as well. For more information, see the <a href="https://geodesignhub.github.io/dashboard">Github</a> page.</p><br>
+            <p>This is a text based dashboard of your Geodesignhub project via the <a
+                    href="http://www.geodesignhub.com/api/" target="_blank">Geodesignhub API</a> experiment to. In
+                addition to showing the text based information about the individual diagrams, diagram notes can be
+                displayed as well. For more information, see the <a
+                    href="https://geodesignhub.github.io/dashboard">Github</a> page.</p><br>
 
 
         </div>
     </div>
     <br>
     <div class="container">
-        
+
         <section>
-            
+
             <br>
-            <h2><span>Project Diagram grid</span> <span class="pull-right"><a href="/diagrams?projectid=<%= project_id %>&apitoken=<%= api_token %>">See Diagram Details →</a></span></h2>
+            <h2><span>Project Diagram grid</span> <span class="pull-right"><a
+                        href="/diagrams?projectid=<%= project_id %>&apitoken=<%= api_token %>">See Diagram Details
+                        →</a></span></h2>
             <br><br>
             <table id="dTable" class="cell-border display"></table>
         </section>
-        
-        
+
+
         <section>
             <br>
             <br>
@@ -78,7 +84,10 @@
 
     </div>
     <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="assets/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="assets/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="assets/js/buttons.print.min.js"></script>
     <script src="assets/js/humane.min.js"></script>
     <script type="text/javascript">
         var dataTable;
@@ -175,6 +184,12 @@
             }
 
             dataTable = $("#dTable").DataTable({
+                dom: 'Bfrtip',
+                buttons: {
+        buttons: [
+            { extend: 'copy', className: 'button' },
+        ]
+    },
                 "ordering": false,
                 "searching": true,
                 "autoWidth": false,
@@ -185,7 +200,6 @@
                 columns: fields
             });
         }
-
     </script>
 </body>
 

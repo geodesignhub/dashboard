@@ -157,8 +157,6 @@ app.get('/diagrams', function (request, response) {
 
             var thumbnails_uuid = thumbnail_data['results_url'][0].split('/').slice(-2)[0];
 
-
-
             response.render('diagrams', {
                 "status": 1,
                 "systems": results[0],
@@ -166,7 +164,6 @@ app.get('/diagrams', function (request, response) {
                 "all_diagrams": results[1],
                 "project_id": project_id,
                 "api_token": api_token
-
             });
         });
 

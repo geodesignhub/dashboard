@@ -11,6 +11,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <link href='assets/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+    <link href='assets/css/buttons.dataTables.min.css' rel='stylesheet' type='text/css'>
     <link href='assets/css/flatty.css' rel='stylesheet' type='text/css'>
     <link href='assets/css/base.css' rel='stylesheet' type='text/css'>
     <style type="text/css">
@@ -102,7 +103,9 @@
                         %>
                         <tr>
                             <td><%= system_name %></td>
-                            <td><img class="thumbnail" src="/images/<%= diagram_id %>/<%= thumbnails_uuid %>/?apitoken=<%= api_token %>&projectid=<%= project_id %>"></td>
+                            <td><img class="thumbnail"
+                                    src="/images/<%= diagram_id %>/<%= thumbnails_uuid %>/?apitoken=<%= api_token %>&projectid=<%= project_id %>">
+                            </td>
                             <td><%= cur_diagram_details.rank %></td>
                             <td><%= cur_diagram_details.type %></td>
                             <td><%= cur_diagram_details.description %></td>
@@ -128,14 +131,15 @@
             </section>
 
     </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.dataTables.min.js"></script>
-    <script src="assets/js/humane.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="assets/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="assets/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="assets/js/humane.min.js"></script>
 
     <script type="text/javascript">
-        
         var dataTable;
-        
+
 
         humane.log("Diagram Data populated", {
             addnCls: 'humane-flatty-success'
@@ -143,29 +147,43 @@
 
         var groupColumn = 0;
         var table = $('#dTable').DataTable({
-        "columnDefs": [
-            { "visible": false, "targets": groupColumn }
-        ],
-        "order": [[ groupColumn, 'asc' ]],
-        "displayLength": 25,
-        "drawCallback": function ( settings ) {
-            var api = this.api();
-            var rows = api.rows( {page:'current'} ).nodes();
-            var last=null;
- 
-            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
-                if ( last !== group ) {
-                    $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="5">'+group+'</td></tr>'
-                    );
- 
-                    last = group;
-                }
-            } );
-        }
-    } );
- 
+            "columnDefs": [{
+                "visible": false,
+                "targets": groupColumn
+            }],
+            dom: 'Bfrtip',
+            buttons: {
+                buttons: [
+                    {
+                        extend: 'copy',
+                        className: 'button'
+                    }
+                ]
+            },
+            "order": [
+                [groupColumn, 'asc']
+            ],
+            "displayLength": 25,
+            "drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({
+                    page: 'current'
+                }).nodes();
+                var last = null;
 
+                api.column(groupColumn, {
+                    page: 'current'
+                }).data().each(function (group, i) {
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr class="group"><td colspan="5">' + group + '</td></tr>'
+                        );
+
+                        last = group;
+                    }
+                });
+            }
+        });
     </script>
 </body>
 
