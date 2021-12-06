@@ -39,7 +39,12 @@ app.get('/', function (request, response) {
                 }
             }, function (err, response, body) {
                 if (err || response.statusCode !== 200) {
-                    return done(err || new Error());
+                    if (response.statusCode == 429) {
+                        return done(err || new Error("Too many requests from your profie"));
+                    }
+                    else {
+                        return done(err || new Error());
+                    }
                 }
                 return done(null, JSON.parse(body));
             });
@@ -147,7 +152,12 @@ app.get('/diagrams', function (request, response) {
                 }
             }, function (err, response, body) {
                 if (err || response.statusCode !== 200) {
-                    return done(err || new Error());
+                    if (response.statusCode == 429) {
+                        return done(err || new Error("Too many requests from your profie"));
+                    }
+                    else {
+                        return done(err || new Error());
+                    }
                 }
                 return done(null, JSON.parse(body));
             });
