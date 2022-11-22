@@ -17,7 +17,7 @@
     "author": "Hrishikesh Ballal",
     "license": "MIT",
     "dependencies": {
-        "async": "^1.5.2",
+        "async": "^2.6.4",
         "axios": "^0.21.1",
         "body-parser": "^1.15.1",
         "ejs": "^2.5.1",
