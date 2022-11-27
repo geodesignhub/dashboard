@@ -1,7 +1,7 @@
 {
     "name": "geodesignhub-dashboard",
     "version": "1.0.0",
-    "description": "A Geodesign Hub API experiment to show a text based view of projects on Geodesign Hub. ",
+    "description": "A Geodesignhub API experiment to show a text based view of projects on Geodesignhub. ",
     "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
