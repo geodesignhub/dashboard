@@ -41,6 +41,14 @@
             background: #E5E4E2;
             padding-bottom: 25px;
         }
+
+        .dt-search {
+            text-align: right;
+        }
+
+        .dt-paging {
+            margin-top: 15px;
+        }
     </style>
 </head>
 
@@ -87,31 +95,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%  
-                            for ( var i = 0; i < all_diagrams.length; i++ ) {
-                                
-                                var cur_diagram_details = all_diagrams[i];
-                                const diagram_id = cur_diagram_details.id;                                
-                                var sys_id = cur_diagram_details.sysid;
-                                var system_name;                                    
-                                for (var j = 0; j < systems.length; j++ ) {                                
-                                    if (sys_id == systems[j].id) {
-                                        system_name = systems[j].sysname;
-                                        break;
-                                    }
-                                }
-                        %>
-                        <tr>
-                            <td><%= system_name %></td>
-                            <td><img class="thumbnail"
-                                    src="/images/<%= diagram_id %>/<%= thumbnails_uuid %>/?apitoken=<%= api_token %>&projectid=<%= project_id %>">
-                            </td>
-                            <td><%= cur_diagram_details.rank %></td>
-                            <td><%= cur_diagram_details.type %></td>
-                            <td><%= cur_diagram_details.description %></td>
-                            <td><%= cur_diagram_details.notes %></td>
-                        </tr>
-                        <% } %>
+                        <% for ( var i=0; i < all_diagrams.length; i++ ) { var cur_diagram_details=all_diagrams[i];
+                            const diagram_id=cur_diagram_details.id; var sys_id=cur_diagram_details.sysid; var
+                            system_name; for (var j=0; j < systems.length; j++ ) { if (sys_id==systems[j].id) {
+                            system_name=systems[j].sysname; break; } } %>
+                            <tr>
+                                <td>
+                                    <%= system_name %>
+                                </td>
+                                <td><img class="thumbnail"
+                                        src="/images/<%= diagram_id %>/<%= thumbnails_uuid %>/?apitoken=<%= api_token %>&projectid=<%= project_id %>">
+                                </td>
+                                <td>
+                                    <%= cur_diagram_details.rank %>
+                                </td>
+                                <td>
+                                    <%= cur_diagram_details.type %>
+                                </td>
+                                <td>
+                                    <%= cur_diagram_details.description %>
+                                </td>
+                                <td>
+                                    <%= cur_diagram_details.notes %>
+                                </td>
+                            </tr>
+                            <% } %>
                     </tbody>
                     <tfoot>
                         <tr>
@@ -151,16 +159,8 @@
                 "visible": false,
                 "targets": groupColumn
             }],
-            dom: 'Bfrtip',
-            buttons: {
-                buttons: [
-                    {
-                        extend: 'copy',
-                        className: 'button',
-                        text:'Copy to clipboard'
-                    }
-                ]
-            },
+            
+            
             "order": [
                 [groupColumn, 'asc']
             ],

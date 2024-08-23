@@ -74,6 +74,10 @@ td {
 body {
     line-height: 1;
 }
+small {
+    font-size: 10px;
+}
+}
 
 h1,
 h2,

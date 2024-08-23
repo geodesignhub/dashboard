@@ -10,8 +10,9 @@
     <title>Geodesignhub Dashboard</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    
     <link href='assets/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
-    <link href='assets/css/buttons.dataTables.min.css' rel='stylesheet' type='text/css'>
+    
     <link href='assets/css/flatty.css' rel='stylesheet' type='text/css'>
     <link href='assets/css/base.css' rel='stylesheet' type='text/css'>
     <style type="text/css">
@@ -40,6 +41,11 @@
         .herounit {
             background: #E5E4E2;
             padding-bottom: 25px;
+        }
+        .dt-search {  
+            text-align:right; }
+        .dt-paging {
+            margin-top:15px;
         }
     </style>
 </head>
@@ -85,9 +91,6 @@
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="assets/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="assets/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="assets/js/buttons.print.min.js"></script>
     <script src="assets/js/humane.min.js"></script>
     <script type="text/javascript">
         var dataTable;
@@ -185,12 +188,11 @@
 
             dataTable = $("#dTable").DataTable({
                 dom: 'Bfrtip',
-                buttons: {
-                    buttons: [{
-                        extend: 'copy',
-                        className: 'button',
-                        text: 'Copy to clipboard'
-                    }, ]
+                            
+                layout: {
+                    topStart: {
+                        buttons: ['copy']
+                    }
                 },
                 "ordering": false,
                 "searching": true,
