@@ -98,7 +98,7 @@
                         <% for ( var i=0; i < all_diagrams.length; i++ ) { var cur_diagram_details=all_diagrams[i];
                             const diagram_id=cur_diagram_details.id; var sys_id=cur_diagram_details.sysid; var
                             system_name; for (var j=0; j < systems.length; j++ ) { if (sys_id==systems[j].id) {
-                            system_name=systems[j].sysname; break; } } %>
+                            system_name=systems[j].name; break; } } %>
                             <tr>
                                 <td>
                                     <%= system_name %>
