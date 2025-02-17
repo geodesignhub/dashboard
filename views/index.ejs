@@ -112,75 +112,27 @@
 
 
         function populateDesignGrid(systems, diagrams) {
+            const fields = systems.map(system => ({
+                title: system.name,
+                width: "15%"
+            }));
 
-            var fields = [];
-            var syslen = systems.length;
-            for (var k1 = 0; k1 < syslen; k1++) {
-                var curSys = systems[k1];
-                fields.push({
-                    "title": curSys.name,
-                    "width": "15%"
-                });
-            }
+            const allRanks = diagrams.map(diagram => diagram.rank);
+            const numRows = Math.max(...allRanks);
 
-            var diagData = [];
-            var fieldlen = fields.length;
-            var diaglen = diagrams.length;
-            var allRanks = [];
-            Array.max = function (array) {
-                return Math.max.apply(Math, array);
-            };
-            for (var l1 = 0; l1 < diaglen; l1++) {
-                var curRank = diagrams[l1].rank;
-                allRanks.push(curRank);
-            }
-            // we now have the number of rows;
-            var numRows = Array.max(allRanks);
-            // initialize a empty row. 
-            var emptyDataset = [];
-            for (var j1 = 0; j1 < numRows; j1++) {
-                var curRow = [];
-                for (var n1 = 0; n1 < fieldlen; n1++) {
-                    curRow.push('');
+            const emptyDataset = Array.from({ length: numRows }, () => Array(fields.length).fill(''));
+
+            diagrams.forEach(diagram => {
+                const diagRow = diagram.rank - 1;
+                const column = systems.findIndex(system => system.id === diagram.sysid);
+
+                if (column !== -1) {
+                    emptyDataset[diagRow][column] = `
+                        <b>${diagram.rank}</b>&nbsp;&nbsp;${diagram.worlddescription}
+                        <br><small>Author&nbsp;:&nbsp;${diagram.author}&nbsp;&nbsp;&nbsp;&nbsp; ID: ${diagram.id}</small>
+                    `;
                 }
-                emptyDataset.push(curRow);
-            }
-
-            var rows = emptyDataset.length;
-
-            for (var u1 = 0; u1 < diaglen; u1++) {
-                var curDiag = diagrams[u1];
-                var diagRank = curDiag.rank;
-                var diagRow = diagRank - 1;
-                var diagSysid = curDiag.sysid;
-                var column;
-                for (var k2 = 0; k2 < syslen; k2++) {
-                    var curSystem = systems[k2];
-                    if (diagSysid === curSystem.id) {
-                        column = k2;
-                        break;
-                    }
-                }
-                // we now have a column of the entry, identify the row.
-
-                for (var row = 0; row < rows; row++) {
-                    if (row === diagRow) {
-                        for (var col = 0; col < fieldlen; col++) {
-                            if (col === column) {
-                                var projectid = $("#projectid").val();
-
-                                emptyDataset[row][column] = "<b>" + diagRank + "</b>&nbsp;&nbsp;" + curDiag
-                                    .worlddescription + "<br><small>Author&nbsp;:&nbsp;" + curDiag.author +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp; ID: " + curDiag.id + "</small> ";
-                                break;
-                            }
-
-                        }
-                    }
-                }
-
-
-            }
+            });
 
             if (dataTable) {
                 dataTable.destroy();
@@ -188,18 +140,17 @@
 
             dataTable = $("#dTable").DataTable({
                 dom: 'Bfrtip',
-                            
                 layout: {
                     topStart: {
                         buttons: ['copy']
                     }
                 },
-                "ordering": false,
-                "searching": true,
-                "autoWidth": false,
-                "paging": true,
-                "info": false,
-                "lengthMenu": [100],
+                ordering: false,
+                searching: true,
+                autoWidth: false,
+                paging: true,
+                info: false,
+                lengthMenu: [100],
                 data: emptyDataset,
                 columns: fields
             });
