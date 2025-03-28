@@ -97,62 +97,53 @@
         let data = <%- JSON.stringify(data) %>;
         var status = <%- status %>;
         if (status) {
-
             populateDesignGrid(data[0], data[1]);
-            humane.log("Project Data populated", {
-                addnCls: 'humane-flatty-success'
-            });
-
+            showNotification("Project Data populated", 'success');
         } else {
-            humane.log("Error in getting project data. Please check your project id and credentials.", {
-                addnCls: 'humane-flatty-error'
-            });
-
+            showNotification("Error in getting project data. Please check your project id and credentials.", 'error');
         }
 
+        function showNotification(message, type) {
+            const notificationClass = type === 'success' ? 'humane-flatty-success' : 'humane-flatty-error';
+            humane.log(message, { addnCls: notificationClass });
+        }
 
         function populateDesignGrid(systems, diagrams) {
             const fields = systems.map(system => ({
-                title: system.name,
-                width: "15%"
+            title: system.name,
+            width: "15%"
             }));
 
-            const allRanks = diagrams.map(diagram => diagram.rank);
-            const numRows = Math.max(...allRanks);
-
+            const numRows = Math.max(...diagrams.map(diagram => diagram.rank));
             const emptyDataset = Array.from({ length: numRows }, () => Array(fields.length).fill(''));
 
-            diagrams.forEach(diagram => {
-                const diagRow = diagram.rank - 1;
-                const column = systems.findIndex(system => system.id === diagram.sysid);
+            diagrams.forEach(({ rank, sysid, worlddescription, author, id }) => {
+            const rowIndex = rank - 1;
+            const colIndex = systems.findIndex(system => system.id === sysid);
 
-                if (column !== -1) {
-                    emptyDataset[diagRow][column] = `
-                        <b>${diagram.rank}</b>&nbsp;&nbsp;${diagram.worlddescription}
-                        <br><small>Author&nbsp;:&nbsp;${diagram.author}&nbsp;&nbsp;&nbsp;&nbsp; ID: ${diagram.id}</small>
-                    `;
-                }
+            if (colIndex !== -1) {
+                emptyDataset[rowIndex][colIndex] = `
+                <b>${rank}</b>&nbsp;&nbsp;${worlddescription}
+                <br><small>Author&nbsp;:&nbsp;${author}&nbsp;&nbsp;&nbsp;&nbsp; ID: ${id}</small>
+                `;
+            }
             });
 
             if (dataTable) {
-                dataTable.destroy();
+            dataTable.destroy();
             }
 
             dataTable = $("#dTable").DataTable({
-                dom: 'Bfrtip',
-                layout: {
-                    topStart: {
-                        buttons: ['copy']
-                    }
-                },
-                ordering: false,
-                searching: true,
-                autoWidth: false,
-                paging: true,
-                info: false,
-                lengthMenu: [100],
-                data: emptyDataset,
-                columns: fields
+            dom: 'Bfrtip',
+            buttons: ['copy'],
+            ordering: false,
+            searching: true,
+            autoWidth: false,
+            paging: true,
+            info: false,
+            lengthMenu: [100],
+            data: emptyDataset,
+            columns: fields
             });
         }
     </script>
