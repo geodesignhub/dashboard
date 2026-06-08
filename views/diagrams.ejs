@@ -213,13 +213,30 @@
                                 }
                             }
                         },
-                        customize: function(doc) {
-                            var body = doc.content[1].table.body;
+                        customize: function(doc) {var tableNode = doc.content.find(function(item) {
+                                return item && item.table;
+                            });
+                            if (!tableNode) return;
+
+                            let body = tableNode.table.body;
+
                             for (var i = 1; i < body.length; i++) {
-                                var cell = body[i][0];
-                                var src = cell && cell.text;
+                                var cell = body[i][1];
+                                var src = null;
+
+                                if (typeof cell === 'string') {
+                                    src = cell;
+                                } else if (cell && cell.text) {
+                                    src = cell.text;
+                                }
+
                                 if (src && imageCache[src]) {
-                                    body[i][0] = { image: imageCache[src], fit: [60, 60] };
+                                    body[i][1] = {
+                                        image: imageCache[src],
+                                        fit: [60, 60]
+                                    };
+                                } else {
+                                    body[i][1] = '-';
                                 }
                             }
                         }
