@@ -197,7 +197,7 @@
                         className: 'pdf-export-btn',
                         action: function(e, dt, button, config, cb) {
                             var self = this;
-                            var allSrcs = dt.column(1).data().toArray().map(function(html) {
+                            var allSrcs = dt.column(0).data().toArray().map(function(html) {
                                 var tmp = document.createElement('div');
                                 tmp.innerHTML = html;
                                 var img = tmp.querySelector('img');
