@@ -197,7 +197,7 @@
                         className: 'pdf-export-btn',
                         action: function(e, dt, button, config, cb) {
                             var self = this;
-                            var allSrcs = dt.column(0).data().toArray().map(function(html) {
+                            var allSrcs = dt.column(1).data().toArray().map(function(html) {
                                 var tmp = document.createElement('div');
                                 tmp.innerHTML = html;
                                 var img = tmp.querySelector('img');
@@ -225,10 +225,10 @@
                             });
                         },
                         exportOptions: {
-                            columns: [ 1,0, 2, 4, 5],
+                            columns: [0, 1, 2, 4, 5],
                             format: {
                                 body: function(data, row, column, node) {
-                                    if (column === 0) {
+                                    if (column === 1) {
                                         if (node) {
                                             var img = node.querySelector('img');
                                             if (img) return img.getAttribute('src');
