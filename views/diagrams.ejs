@@ -148,7 +148,7 @@
 
     <script type="text/javascript">
         var dataTable;
-
+        var imageCache = {};
 
         humane.log("Diagram Data populated", {
             addnCls: 'humane-flatty-success'
@@ -160,12 +160,68 @@
                 "visible": false,
                 "targets": groupColumn
             }],
-            
+
             layout: {
-        topStart: {
-            buttons: ['pdfHtml5']
-        }
-    },
+                topStart: {
+                    buttons: [{
+                        extend: 'pdfHtml5',
+                        action: function(e, dt, button, config) {
+                            var self = this;
+                            var allSrcs = dt.column(1).data().toArray().map(function(html) {
+                                var tmp = document.createElement('div');
+                                tmp.innerHTML = html;
+                                var img = tmp.querySelector('img');
+                                return img ? img.src : null;
+                            }).filter(Boolean);
+
+                            var fetches = allSrcs.map(function(src) {
+                                if (imageCache[src]) return Promise.resolve();
+                                return fetch(src)
+                                    .then(function(r) { return r.blob(); })
+                                    .then(function(blob) {
+                                        return new Promise(function(resolve) {
+                                            var reader = new FileReader();
+                                            reader.onload = function() {
+                                                imageCache[src] = reader.result;
+                                                resolve();
+                                            };
+                                            reader.readAsDataURL(blob);
+                                        });
+                                    });
+                            });
+
+                            Promise.all(fetches).then(function() {
+                                $.fn.dataTable.ext.buttons.pdfHtml5.action.call(self, e, dt, button, config);
+                            });
+                        },
+                        exportOptions: {
+                            format: {
+                                body: function(data, row, column, node) {
+                                    if (column === 1) {
+                                        if (node) {
+                                            var img = node.querySelector('img');
+                                            if (img) return img.src;
+                                        }
+                                        var match = String(data).match(/src="([^"]+)"/);
+                                        return match ? match[1] : data;
+                                    }
+                                    return data;
+                                }
+                            }
+                        },
+                        customize: function(doc) {
+                            var body = doc.content[1].table.body;
+                            for (var i = 1; i < body.length; i++) {
+                                var cell = body[i][0];
+                                var src = cell && cell.text;
+                                if (src && imageCache[src]) {
+                                    body[i][0] = { image: imageCache[src], fit: [60, 60] };
+                                }
+                            }
+                        }
+                    }]
+                }
+            },
             "order": [
                 [groupColumn, 'asc']
             ],
