@@ -173,7 +173,7 @@
                                 var tmp = document.createElement('div');
                                 tmp.innerHTML = html;
                                 var img = tmp.querySelector('img');
-                                return img ? img.src : null;
+                                return img ? img.getAttribute('src') : null;
                             }).filter(Boolean);
 
                             var fetches = allSrcs.map(function(src) {
@@ -202,7 +202,7 @@
                                     if (column === 1) {
                                         if (node) {
                                             var img = node.querySelector('img');
-                                            if (img) return img.src;
+                                            if (img) return img.getAttribute('src');
                                         }
                                         var match = String(data).match(/src="([^"]+)"/);
                                         return match ? match[1] : data;
