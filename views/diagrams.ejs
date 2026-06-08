@@ -228,7 +228,7 @@
                             columns: [ 1,0, 2, 4, 5],
                             format: {
                                 body: function(data, row, column, node) {
-                                    if (column === 1) {
+                                    if (column === 0) {
                                         if (node) {
                                             var img = node.querySelector('img');
                                             if (img) return img.getAttribute('src');
