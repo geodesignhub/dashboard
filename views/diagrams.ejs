@@ -49,6 +49,31 @@
         .dt-paging {
             margin-top: 15px;
         }
+
+        .dt-buttons {
+            margin-bottom: 12px;
+        }
+
+        .pdf-export-btn {
+            background: linear-gradient(135deg, #0b6e99, #00aed8) !important;
+            border: 0 !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            font-weight: 600 !important;
+            padding: 8px 14px !important;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+        }
+
+        .pdf-export-btn:hover {
+            filter: brightness(1.05);
+            box-shadow: 0 6px 14px rgba(0, 110, 153, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .pdf-export-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 110, 153, 0.2);
+        }
     </style>
 </head>
 
@@ -169,6 +194,7 @@
                 topStart: {
                     buttons: [{
                         extend: 'pdfHtml5',
+                        className: 'pdf-export-btn',
                         action: function(e, dt, button, config, cb) {
                             var self = this;
                             var allSrcs = dt.column(1).data().toArray().map(function(html) {
